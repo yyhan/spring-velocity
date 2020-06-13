@@ -1,0 +1,8 @@
+# idea 生成的目录
+.idea
+# idea 模块文件
+*.iml
+# maven 生成的目录
+target
+~/
+
