@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tools>
+    <toolbox scope="application">
+        <!-- velocity 内置工具类 -->
+        <tool class="org.apache.velocity.tools.generic.ClassTool"/>
+<!--        <tool class="org.apache.velocity.tools.generic.CollectionTool"/>-->
+        <tool class="org.apache.velocity.tools.generic.ComparisonDateTool"/>
+        <tool class="org.apache.velocity.tools.generic.DisplayTool"/>
+        <tool class="org.apache.velocity.tools.generic.FieldTool"/>
+<!--        <tool class="org.apache.velocity.tools.generic.LogTool"/>-->
+        <tool class="org.apache.velocity.tools.generic.MathTool"/>
+        <tool class="org.apache.velocity.tools.generic.ResourceTool"/>
+
+        <tool key="escapeTool" class="org.apache.velocity.tools.generic.EscapeTool"/>
+        <tool key="numberTool" class="org.apache.velocity.tools.generic.NumberTool"/>
+        <tool key="dateTool" class="org.apache.velocity.tools.generic.DateTool"/>
+
+    </toolbox>
+</tools>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.yg.spring</groupId>
+    <artifactId>springboot-velocity-demo</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>springboot-velocity-demo</name>
+    <description>Demo project for Spring Boot</description>
+
+    <properties>
+        <!-- 指定编译器版本 -->
+        <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+        <!-- 指定 java 源码版本，即 javac 的 -source 参数 -->
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <!-- 指定生成字节码的版本，即 javac 的 -target 参数 -->
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <!-- java 版本 -->
+        <java.version>1.8</java.version>
+        <!-- 文件编码 -->
+        <file.encoding>utf-8</file.encoding>
+        <!-- 指定源代码的编码 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- 该模块禁止 install 到本地 maven 仓库 -->
+        <maven.install.skip>true</maven.install.skip>
+        <!-- 该模块禁止部署到远程 maven 仓库 -->
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.3.1.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- 引入依赖 -->
+        <dependency>
+            <groupId>org.yg.spring</groupId>
+            <artifactId>springframework-velocity</artifactId>
+            <version>0.0.0.1</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

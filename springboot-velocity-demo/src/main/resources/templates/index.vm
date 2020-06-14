@@ -1,0 +1,3 @@
+#set($layout = 'layout_2.vm')
+
+hello velocity
