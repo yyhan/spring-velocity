@@ -91,6 +91,7 @@ public class VelocityLayoutViewResolver extends VelocityViewResolver {
 
 	@Override
 	protected AbstractUrlBasedView buildView(String viewName) throws Exception {
+		// todo 当 layoutUrl 为 null 时，返回 VelocityToolboxView
 		VelocityLayoutView view = (VelocityLayoutView) super.buildView(viewName);
 		// Use not-null checks to preserve VelocityLayoutView's defaults.
 		if (this.layoutUrl != null) {
