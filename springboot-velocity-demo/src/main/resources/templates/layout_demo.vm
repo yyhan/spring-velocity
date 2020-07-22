@@ -1,0 +1,5 @@
+<h1>指定布局模板</h1>
+<p>当前时间： $date.iso</p>
+<p>页面内容：</p>
+$!screen_content
+

@@ -1,5 +1,6 @@
 package org.yg.spring.springboot.velocity.demo.config;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -15,10 +16,14 @@ import org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver;
 public class WebmvcConfig implements WebMvcConfigurer {
 
     @Bean
-    public VelocityConfigurer velocityConfigurer() {
+    public VelocityConfigurer velocityConfigurer(ApplicationContext context) {
         VelocityConfigurer velocityConfigurer = new VelocityConfigurer();
-        // 模板加载路径
-        velocityConfigurer.setResourceLoaderPath("classpath:templates");
+        // 模板加载路径（未设置默认的布局文件时，需要从类路径中加载默认的布局文件，故须配置："classpath:"）
+        velocityConfigurer.setResourceLoaderPath("classpath:templates,classpath:");
+        // 设置文件系统加载器 "不" 优先（即 spring 的资源加载器优先）
+        velocityConfigurer.setPreferFileSystemAccess(false);
+        // 使用 spring 的资源加载器
+        velocityConfigurer.setResourceLoader(context);
         return velocityConfigurer;
     }
 
@@ -31,8 +36,8 @@ public class WebmvcConfig implements WebMvcConfigurer {
         velocityLayoutViewResolver.setPrefix("");
         // 布局模板文件的 key
         velocityLayoutViewResolver.setLayoutKey("layout");
-        // 默认布局模板文件
-        velocityLayoutViewResolver.setLayoutUrl("layout.vm");
+//        // 默认布局模板文件
+//        velocityLayoutViewResolver.setLayoutUrl("layout.vm");
         // 工具集合配置
         velocityLayoutViewResolver.setToolboxConfigLocation("toolbox.xml");
         velocityLayoutViewResolver.setContentType("text/html;charset=UTF-8");

@@ -1,3 +1,10 @@
-#set($layout = 'layout_2.vm')
-
-hello velocity
+#if($useLayout)
+    #set($layout = 'layout_demo.vm')
+#end
+<ul>
+    <li><a href="/index?useLayout=false">不使用布局模板</a></li>
+    <li><a href="/index?useLayout=true">使用布局模板</a></li>
+</ul>
+<p>
+    index 页面
+</p>

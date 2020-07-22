@@ -54,11 +54,6 @@ import org.springframework.core.NestedIOException;
 public class VelocityLayoutView extends VelocityToolboxView {
 
 	/**
-	 * The default {@link #setLayoutUrl(String) layout url}.
-	 */
-	public static final String DEFAULT_LAYOUT_URL = "classpath*:org/springframework/web/servlet/view/velocity/layout.vm";
-
-	/**
 	 * The default {@link #setLayoutKey(String) layout key}.
 	 */
 	public static final String DEFAULT_LAYOUT_KEY = "layout";
@@ -68,8 +63,7 @@ public class VelocityLayoutView extends VelocityToolboxView {
 	 */
 	public static final String DEFAULT_SCREEN_CONTENT_KEY = "screen_content";
 
-
-	private String layoutUrl = DEFAULT_LAYOUT_URL;
+	private String layoutUrl;
 
 	private String layoutKey = DEFAULT_LAYOUT_KEY;
 
@@ -77,9 +71,7 @@ public class VelocityLayoutView extends VelocityToolboxView {
 
 
 	/**
-	 * Set the layout template to use. Default is {@link #DEFAULT_LAYOUT_URL "layout.vm"}.
-	 * @param layoutUrl the template location (relative to the template
-	 * root directory)
+	 * 设置默认布局模板
 	 */
 	public void setLayoutUrl(String layoutUrl) {
 		this.layoutUrl = layoutUrl;
@@ -124,19 +116,21 @@ public class VelocityLayoutView extends VelocityToolboxView {
 			return false;
 		}
 
-		try {
-			// Check that we can get the template, even if we might subsequently get it again.
-			getTemplate(this.layoutUrl);
-			return true;
+		if (this.layoutUrl != null) {
+			try {
+				// Check that we can get the template, even if we might subsequently get it again.
+				getTemplate(this.layoutUrl);
+			}
+			catch (ResourceNotFoundException ex) {
+				throw new NestedIOException("Cannot find Velocity template for URL [" + this.layoutUrl +
+						"]: Did you specify the correct resource loader path?", ex);
+			}
+			catch (Exception ex) {
+				throw new NestedIOException(
+						"Could not load Velocity template for URL [" + this.layoutUrl + "]", ex);
+			}
 		}
-		catch (ResourceNotFoundException ex) {
-			throw new NestedIOException("Cannot find Velocity template for URL [" + this.layoutUrl +
-					"]: Did you specify the correct resource loader path?", ex);
-		}
-		catch (Exception ex) {
-			throw new NestedIOException(
-					"Could not load Velocity template for URL [" + this.layoutUrl + "]", ex);
-		}
+		return true;
 	}
 
 	/**
@@ -147,40 +141,43 @@ public class VelocityLayoutView extends VelocityToolboxView {
 	 */
 	@Override
 	protected void doRender(Context context, HttpServletResponse response) throws Exception {
-		renderScreenContent(context);
 
-		// Velocity context now includes any mappings that were defined
-		// (via #set) in screen content template.
-		// The screen template can overrule the layout by doing
-		// #set( $layout = "MyLayout.vm" )
-		String layoutUrlToUse = (String) context.get(this.layoutKey);
-		if (layoutUrlToUse != null) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("Screen content template has requested layout [" + layoutUrlToUse + "]");
-			}
-		}
-		else {
-			// No explicit layout URL given -> use default layout of this view.
-			layoutUrlToUse = this.layoutUrl;
-		}
-
-		mergeTemplate(getTemplate(layoutUrlToUse), context, response);
-	}
-
-	/**
-	 * The resulting context contains any mappings from render, plus screen content.
-	 */
-	private void renderScreenContent(Context velocityContext) throws Exception {
 		if (logger.isDebugEnabled()) {
 			logger.debug("Rendering screen content template [" + getUrl() + "]");
 		}
 
-		StringWriter sw = new StringWriter();
+		// 获取页面模板
 		Template screenContentTemplate = getTemplate(getUrl());
-		screenContentTemplate.merge(velocityContext, sw);
 
-		// Put rendered content into Velocity context.
-		velocityContext.put(this.screenContentKey, sw.toString());
+		// 页面模板渲染
+		StringWriter sw = new StringWriter();
+		screenContentTemplate.merge(context, sw);
+
+		// 查找使用的布局模板
+		String layoutUrlToUse;
+		if ((layoutUrlToUse = (String) context.get(this.layoutKey)) != null) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Screen content template has requested layout [" + layoutUrlToUse + "]");
+			}
+		} else if((layoutUrlToUse = this.layoutUrl) != null){
+			// 未指定布局文件时，使用默认布局文件
+			if (logger.isDebugEnabled()) {
+				logger.debug("Screen content template has requested default layout [" + layoutUrlToUse + "]");
+			}
+		} else {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Both the defined layout and the default layout is null");
+			}
+		}
+
+		if (layoutUrlToUse == null) {
+			// 无布局模板时，直接将页面内容输出到响应流
+			response.getWriter().write(sw.toString());
+		} else {
+			// 有布局模板时，将页面内容作为布局模板中的一个变量
+			context.put(this.screenContentKey, sw.toString());
+			// 合并模板
+			mergeTemplate(getTemplate(layoutUrlToUse), context, response);
+		}
 	}
-
 }
