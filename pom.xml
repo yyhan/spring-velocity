@@ -6,7 +6,7 @@
 
     <groupId>org.yg.spring</groupId>
     <artifactId>spring-velocity</artifactId>
-    <version>0.0.0.1</version>
+    <version>1.0.1</version>
     <modules>
         <module>springframework-velocity</module>
         <module>springboot-velocity-demo</module>

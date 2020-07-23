@@ -1,5 +1,5 @@
 #if($useLayout)
-    #set($layout = 'layout_demo.vm')
+    #set($layout = '/layout_demo.vm')
 #end
 <ul>
     <li><a href="/index?useLayout=false">不使用布局模板</a></li>

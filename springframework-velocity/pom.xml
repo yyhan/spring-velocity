@@ -7,7 +7,7 @@
 
     <groupId>org.yg.spring</groupId>
     <artifactId>springframework-velocity</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <properties>
         <!-- 指定编译器版本 -->

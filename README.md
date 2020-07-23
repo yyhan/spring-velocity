@@ -33,8 +33,8 @@ public class WebmvcConfig implements WebMvcConfigurer {
     @Bean
     public VelocityConfigurer velocityConfigurer(ApplicationContext context) {
         VelocityConfigurer velocityConfigurer = new VelocityConfigurer();
-        // 模板加载路径
-        velocityConfigurer.setResourceLoaderPath("classpath:templates");
+        // 模板加载路径（最后的斜杠可有可无）
+        velocityConfigurer.setResourceLoaderPath("classpath:templates/");
         // 设置文件系统加载器 "不" 优先（即 spring 的资源加载器优先）
         velocityConfigurer.setPreferFileSystemAccess(false);
         // 使用 spring 的资源加载器

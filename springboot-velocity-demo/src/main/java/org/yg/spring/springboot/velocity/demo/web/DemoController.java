@@ -16,6 +16,6 @@ public class DemoController {
     public String index(@RequestParam(name = "useLayout", defaultValue = "true") boolean useLayout,
                         Model model) {
         model.addAttribute("useLayout", useLayout);
-        return "index";
+        return "/index";
     }
 }
