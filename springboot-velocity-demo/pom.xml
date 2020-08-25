@@ -63,7 +63,7 @@
         <dependency>
             <groupId>org.yg.spring</groupId>
             <artifactId>springframework-velocity</artifactId>
-            <version>0.0.0.1</version>
+            <version>1.0.1</version>
         </dependency>
     </dependencies>
 
