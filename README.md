@@ -1,5 +1,7 @@
 # spring-velocity
-spring velocity 2.2 版本支持
+spring velocity 2.2 版本支持。由于 spring 4.3 版本后不再支持 velocity，所以开发了这个项目。
+
+该项目基于 spring 旧版的 velocity 代码开发。相对原版的代码，主要做了 velocity 版本的升级，并无较大改动。
 
 # 使用
 
@@ -8,7 +10,8 @@ spring velocity 2.2 版本支持
 ```xml
 <dependency>
     <groupId>org.yg.spring</groupId>
-@@ -10,5 +14,80 @@ spring velocity 2.2 版本支持
+    <artifactId>spring-velocity</artifactId>
+    <version>1.0.1</version>
 </dependency>
 ```
  
@@ -86,10 +89,6 @@ public class WebmvcConfig implements WebMvcConfigurer {
 
 hello velocity
 ```
-
-
-# TODO
-+ [BUG] 视图名称 或 layout 或 #parse 以 '/' 开头时，在 centos 上找不到视图
 
 # License
 The Spring Framework is released under version 2.0 of the [Apache License](https://www.apache.org/licenses/LICENSE-2.0).
